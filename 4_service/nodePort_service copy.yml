@@ -1,0 +1,30 @@
+# web-pod.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-pod
+  labels:
+    type: web-app
+spec:
+  containers:
+  - name: web-server-apache
+    image: httpd:latest
+    ports:
+    - containerPort: 80
+
+---
+# nodeport_service.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  type: NodePort
+  selector:
+    type: web-app  # Matches the Pod label to link this Service to the correct Pod.
+  ports:
+  - name: http
+    port: 80        # Exposes the service on port 80 internally.
+    nodePort: 30001 # Exposes the service externally on port 30001.
+    targetPort: 80  # Routes traffic to port 80 in the web server container.
+    external (30001)-> 80 webserver <- internal(80)

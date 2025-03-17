@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: liveness-pod
+spec:
+  containers:
+  - name: liveness-container-test
+    image: busybox
+    args:
+    - /bin/sh #start bash in the container
+    - -c #pass the command to bash
+    # the following command will run every 30 seconds
+    - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 600
+
+    livenessProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/healthy
+      initialDelaySeconds: 5 # wait 5 seconds before the first check
+      periodSeconds: 5 # check every 5 seconds
+      failureThreshold: 3 # require 3 successes before marking the container unhealthy

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: redis-pod
+spec:
+  containers:
+  - name: redis-container
+    image: redis
+
+    volumeMounts:
+    # reference volume by name
+    - name: "cache-storage"
+      mountPath: "/cache"
+   
+
+  #  define volume
+  volumes:
+  - name: cache-storage
+    emptyDir: {}

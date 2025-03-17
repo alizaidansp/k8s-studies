@@ -1,0 +1,36 @@
+# daymon set update strategies
+
+# to get the update type command
+# kubectl get ds/my-daemonset -o go-template='{{.spec.updateStrategy.type}}' 
+
+# get the max unavailable pods for the ds
+
+# kubectl get ds/my-daemonset -o go-template='{{.spec.updateStrategy.rollingUpdate.maxUnavailable}}' 
+
+apiVersion: apps/v1          # Specifies the Kubernetes API version being used.
+kind: DaemonSet              # Defines the object type (DaemonSet ensures a pod runs on each node).
+metadata:                    # Metadata section contains identifying information.
+  name: my-daemonset_2        # Name of the DaemonSet.
+  labels:                    # Labels help categorize and identify resources.
+    app: frontend            # Label for the DaemonSet (app is "frontend").
+
+spec:    
+  updateStrategy:
+    type: onDelete
+                        # Specification for the DaemonSet behavior.
+  template:                  # Describes the pod that the DaemonSet will create.
+    metadata:                # Metadata for the pod.
+      name: pod-web-server   # Name of the pod (not required but allowed).
+      labels:                # Labels for the pod.
+        apps: my-app         # Label for identifying the pod (app is "my-app").
+        tier: frontend       # Additional label for tier (frontend).
+
+    spec:                    # Pod specifications (defines what runs in the pod).
+      containers:            # Describes the containers within the pod.
+      - name: my-container-nginx # Name of the container (for identification).
+        image: httpd         # Docker image used (nginx web server).
+
+  selector:                  # Defines how to match the DaemonSet to its pods.
+    matchLabels:             # Match labels to find associated pods.
+      apps: my-app           # Only pods with "apps: my-app" label will be managed.
+

@@ -1,0 +1,14 @@
+# running a pod on a specific node
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+    - name: my-container
+      image: redis
+      
+      # if node name changes, you must delete the pod manually before creating
+  nodeName: minikube
+   

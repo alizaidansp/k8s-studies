@@ -1,0 +1,1 @@
+Creating a  network communication between 2 pods in kubernetes

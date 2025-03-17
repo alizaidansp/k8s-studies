@@ -1,0 +1,42 @@
+# web-pod.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: web-pod
+  labels:
+    type: web-app
+spec:
+  containers:
+  - name: web-server-apache
+    image: httpd:latest
+    ports:
+    - containerPort: 80
+
+  - name: web-server-tomcat
+    image: tomcat:latest
+    ports:
+    - containerPort: 8080
+  
+---
+# Service.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+spec:
+  type: ClusterIP
+  selector:
+    type: web-app  # making ref to the pod label defined above to identify the pod the service will work with
+  ports:
+  - name: http     #http is the name of the port for this service
+    port: 80      
+    targetPort: 80
+    # expects a requests from port 80 and routes it to port 80 from the webapp pod(apache container)
+  
+  - name: tomcat     #http is the name of the port for this service
+    port: 8080      
+    targetPort: 8080
+    # expects a requests from port 8080 and routes it to port 8080 from the webapp pod(tomcat container)
+
+ 
+

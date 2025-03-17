@@ -1,0 +1,28 @@
+# generic daemonset
+# runs processes in the background(example: log collector,monitoring,etc)
+# creates a pod each time a new node is added to the cluster
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata: 
+ name: my-daemonset
+ labels: 
+  app: frontend
+
+spec: 
+ template: 
+  metadata:
+   name: my-pod-webserver
+   labels:
+    apps: my-app
+    tier: frontend
+  spec:
+    containers:
+    - name: my-container-nginx
+      image: nginx 
+
+
+ selector:
+  matchLabels:
+    apps: my-app
+

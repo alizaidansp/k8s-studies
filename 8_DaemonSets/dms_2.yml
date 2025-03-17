@@ -1,0 +1,32 @@
+# specific node daemonset(DS on specific node -With labels)
+# runs processes in the background(example: log collector,monitoring,etc)
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata: 
+ name: my-daemonset
+ labels: 
+  app: frontend
+
+spec: 
+ template: 
+  metadata:
+   name: my-pod-webserver
+   labels:
+    apps: my-app
+    tier: frontend
+  spec:
+    containers:
+    - name: my-container-nginx
+      image: nginx
+
+      # the node with this selector label will run the pod
+    nodeSelector: 
+      disktype: ssd
+ 
+
+
+ selector:
+  matchLabels:
+    apps: my-app
+
