@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+# the k8s api version being used
+kind: CronJob
+# type of resource
+
+
+metadata:
+# data about the job
+  name: myjob
+  # job name
+spec:
+# specs of the job
+  schedule: "* * * * *"
+  jobTemplate:
+
+  # specs of the pods of the job
+    spec:
+      template:
+      # template to use for the pods
+        spec:
+          containers:
+          # containers of the pods
+          - name: hello
+            image: busybox:1.28
+            command:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: Never

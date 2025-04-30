@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-cm
+  namespace: default
+data:
+  # Connection database config
+  database: mongodb
+  database_url: mongodb://localhost:27017
+
+  # UI Config
+  font.title: Arial
+  background-color: blue
+  theme.default: clean
+  theme.dark: dark
+
+
+
+---
+# another yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-cm-env
+
+spec:
+  containers:
+  - name: my-container
+    image: nginx
+    envFrom:
+    - configMapRef:
+        name: my-cm
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+
