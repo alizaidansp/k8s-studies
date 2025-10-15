@@ -1,0 +1,21 @@
+setting up a mater slave architechture for mysql in a kubernetes cluster
+
+the problem, so I was learning avout statefulsets  and then it hitted me,  if you can use statefulset to persist data for
+mysql,mongodb and postgress, meanwhile stateful set requires 2 distinct components
+1. aheadless service(for networking)
+2. persistent volume, nwo I used nginx and everything seem to work perfectly, but I realised one thing,
+I had 5 replicas and all had its own dedicated volume even thouh all are binded by the same service name
+so if I chanfe lets say the html page of pod a, it wont sync with pod b cus they are writing to independent storage drivers
+but I wanted to leverage the power of dtatefulsets by applying it in an actual realworld scenario
+so I decided to use it for mysql to see how it will work, I assumed I will have the same effect as I did with nginx
+now inorder to solve this, we need to setup dedicated service and statefulset  for master and another one for the children
+so that we use the master for writing and the children for reading
+the master will have just 1 replica for write ops and then we can have multiple nodes for reads in the child stateful sets pods
+
+
+1. setup minikube
+
+2. start minikube
+3. check if ur cluster is up
+4. create a service and statefulset for both master and slaves
+5. test

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-cm
+  namespace: default
+data:
+  # Connection database config
+  my.config.db: |
+    database: mariadb
+    database_url: mariadb://localhost:3306
+  test.field: "test value"
+
+
